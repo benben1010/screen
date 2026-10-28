@@ -2,105 +2,370 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Daily Report TV Display</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report Player</title>
 <style>
-:root{--bg:#0b1220;--panel:#121d30;--panel2:#18263d;--text:#eef4ff;--muted:#aab8ce;--accent:#5eead4;--line:#2b3b55;--danger:#fb7185}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:9px 13px}button:hover{border-color:var(--accent)}button.primary{background:var(--accent);color:#06201d;border-color:var(--accent);font-weight:700}button.danger{color:#fecdd3;border-color:#713443}input,select{background:#0b1424;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px;max-width:100%}a{color:var(--accent)}.app{max-width:1500px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:12px;background:var(--accent);color:#06201d;display:grid;place-items:center;font-size:22px;font-weight:900}.brand h1{font-size:22px;margin:0}.brand p{color:var(--muted);margin:4px 0 0;font-size:13px}.tabs{display:flex;gap:8px;flex-wrap:wrap}.layout{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;min-width:0}.panel h2{font-size:17px;margin:0 0 14px}.muted{color:var(--muted);font-size:13px;line-height:1.5}.upload{border:1px dashed #55708f;border-radius:12px;padding:22px 14px;text-align:center;background:#0e192b}.upload strong{display:block;margin-bottom:8px}.upload input{width:100%;margin-top:12px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:13px;color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.status{font-size:12px;color:var(--muted);margin-top:10px;min-height:18px}.file-list{display:grid;gap:10px}.file{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid var(--line);background:#0e192b;border-radius:11px;padding:12px}.file .type{width:42px;height:42px;display:grid;place-items:center;background:var(--panel2);border-radius:9px;font-size:11px;font-weight:800;color:var(--accent)}.file-name{font-weight:650;overflow-wrap:anywhere}.file-meta{font-size:12px;color:var(--muted);margin-top:4px}.file-controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}.file-controls button{padding:6px 8px}.preview{min-height:350px;background:#08101d;border:1px solid var(--line);border-radius:12px;overflow:auto;display:flex;align-items:center;justify-content:center;padding:14px}.preview img{max-width:100%;max-height:68vh;object-fit:contain}.preview iframe{width:100%;height:70vh;border:0;background:white}.preview table{border-collapse:collapse;background:white;color:#172033;font-size:13px;min-width:100%}.preview th,.preview td{border:1px solid #cbd5e1;padding:7px 9px;text-align:left;white-space:pre-wrap;max-width:300px}.preview th{background:#e2e8f0;position:sticky;top:0}.preview .placeholder{text-align:center;color:var(--muted);padding:30px}.preview .placeholder .big{font-size:36px;margin-bottom:10px}.preview-bar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}.checkline{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}.checkline input{accent-color:var(--accent)}.notice{background:#302a18;border:1px solid #6e5a26;color:#fce7a6;padding:12px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:16px}.empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.hidden{display:none!important}.footer{margin-top:18px;color:var(--muted);font-size:12px;text-align:center}
-body.display-mode{background:#05080d;overflow:hidden}.tv{height:100vh;width:100vw;display:flex;flex-direction:column}.tv-head{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:#101927;border-bottom:1px solid #263246;gap:16px}.tv-title{font-weight:700;font-size:clamp(16px,2vw,28px);overflow-wrap:anywhere}.tv-sub{color:#aab8ce;font-size:clamp(11px,1vw,15px);margin-top:4px}.tv-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:10px;overflow:auto}.tv-stage img{max-width:100%;max-height:100%;object-fit:contain}.tv-stage iframe{width:100%;height:100%;border:0;background:white}.tv-stage .excel-wrap{width:100%;height:100%;overflow:auto}.tv-stage table{border-collapse:collapse;background:#fff;color:#172033;font-size:clamp(12px,1.15vw,22px);width:100%}.tv-stage th,.tv-stage td{border:1px solid #cbd5e1;padding:clamp(6px,.7vw,13px);text-align:left;white-space:pre-wrap}.tv-stage th{background:#dbeafe}.tv-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 18px;background:#101927;color:#aab8ce;font-size:13px}.tv-controls{display:flex;gap:6px}.tv-controls button{padding:6px 10px}.tv-empty{color:#cbd5e1;text-align:center;padding:24px}.tv-empty h2{font-size:clamp(20px,3vw,42px)}@media(max-width:850px){.layout{grid-template-columns:1fr}.app{padding:14px}.preview{min-height:250px}.file{grid-template-columns:auto minmax(0,1fr)}.file-controls{grid-column:1/-1;justify-content:flex-start}} 
+:root{--bg:#f4f6fa;--ink:#172033;--muted:#64708a;--line:#dfe4ee;--brand:#d40511;--accent:#1f5eff}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input{font:inherit;color:inherit}
+.hidden{display:none!important}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:.5em .9em;font-weight:600;cursor:pointer}
+.btn:hover:not(:disabled){background:#f1f3f8}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff;font-size:17px;padding:.65em 1.6em}
+.btn.primary:hover:not(:disabled){background:#b30410}
+.btn.sm{padding:.25em .55em;font-size:13px}
+#setup{max-width:900px;margin:0 auto;padding:24px 16px;display:grid;gap:16px}
+h1{margin:0;font-size:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;box-shadow:0 1px 2px rgba(20,30,60,.06)}
+.drop{border:2px dashed #b7c1d6;border-radius:12px;padding:34px 16px;text-align:center;background:#fafbfe;cursor:pointer}
+.drop.over{border-color:var(--accent);background:#e6edff}
+.muted{color:var(--muted)}.small{font-size:13px}
+.item{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+.item .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item input[type=number]{width:64px;padding:.3em;border:1px solid var(--line);border-radius:6px;text-align:center}
+.badge{display:inline-block;border-radius:999px;padding:.1em .6em;font-size:12px;font-weight:700;background:#e6edff;color:var(--accent)}
+.badge.bad{background:#fde7e8;color:#c0262d}
+.err{color:#c0262d;font-size:13px;margin-top:6px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spinner{width:22px;height:22px;border:3px solid rgba(120,130,150,.3);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* player */
+#stage{position:fixed;inset:0;background:#0b1020;color:#fff;z-index:10;cursor:default}
+#stage.idle{cursor:none}
+#view{position:absolute;inset:0 0 7.5vh 0;padding:2vmin 2.4vmin;display:flex;justify-content:center;align-items:center;overflow:hidden}
+.slide{width:100%;height:100%;display:flex;justify-content:center;align-items:flex-start;animation:fade .5s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.slide img{max-width:100%;max-height:100%;object-fit:contain;align-self:center}
+.slide canvas{max-width:100%;max-height:100%;align-self:center;background:#fff;box-shadow:0 0 40px rgba(0,0,0,.5)}
+.msg{align-self:center;text-align:center;font-size:clamp(18px,3vh,40px);color:#c9d4ee;max-width:900px}
+.xlwrap{width:100%;height:100%;display:flex;flex-direction:column;align-items:center}
+.xlcap{align-self:flex-start;color:#9fb3d9;font-weight:600;margin-bottom:.6vh}
+.xlscale{transform-origin:top center}
+table.xl{border-collapse:collapse;background:#fff;color:#111;font-variant-numeric:tabular-nums}
+table.xl th,table.xl td{border:1px solid #cdd4e2;padding:.28em .6em;max-width:26em;vertical-align:top;overflow-wrap:anywhere}
+table.xl th{background:var(--brand);color:#fff;text-align:left}
+table.xl td.num{text-align:right}
+table.xl tbody tr:nth-child(even) td{background:#f4f6fb}
+.measure{position:absolute;left:-99999px;top:0;visibility:hidden}
+#cap{position:absolute;left:0;right:0;bottom:0;height:7.5vh;min-height:36px;display:flex;align-items:center;gap:2vw;padding:0 2.4vmin;background:#070b17;border-top:1px solid #1d2744;font-size:clamp(13px,1.9vh,26px);color:#c9d4ee}
+#cap .t{flex:1;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:#1d2744}
+#prog b{display:block;height:100%;background:var(--brand);transform-origin:left;transform:scaleX(0)}
+#hud{position:absolute;top:1.6vmin;right:1.6vmin;display:flex;gap:8px;opacity:0;transition:opacity .3s;z-index:5}
+#stage.hud #hud{opacity:1}
+#hud button{background:rgba(20,28,52,.9);border:1px solid #31406a;color:#fff;border-radius:10px;padding:.5em .9em;font-size:clamp(14px,2.2vh,28px);font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
-<div id="admin" class="app">
-  <header class="top">
-    <div class="brand"><div class="logo">R</div><div><h1>Daily Report TV Display</h1><p>Upload, arrange and preview the daily report pack</p></div></div>
-    <nav class="tabs"><button id="displayLink">Open TV Display ↗</button><button id="exportBtn">Export manifest</button><button id="importBtn">Import manifest</button><input id="manifestInput" type="file" accept=".json,application/json" class="hidden"></nav>
-  </header>
-  <div class="notice"><strong>Important:</strong> This single-file version stores files in this browser only. To share reports with a different TV over the internet, it must be connected to an online storage/backend service. This prototype does not upload files to the internet. Use only test/non-sensitive files until you connect approved storage.</div>
-  <div class="layout">
-    <section class="panel">
-      <h2>1. Add reports</h2>
-      <div class="upload" id="dropZone"><strong>Drop files here</strong><span class="muted">or select multiple files from your laptop</span><input id="fileInput" type="file" multiple accept=".pdf,.xlsx,.xls,.png,.jpg,.jpeg,.webp,application/pdf,image/png,image/jpeg,image/webp,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"></div>
-      <p class="muted">Accepted formats: PDF, XLSX, XLS, PNG, JPG, JPEG and WEBP.</p>
-      <div class="field"><label for="defaultDuration">Default slide duration (seconds)</label><input id="defaultDuration" type="number" min="3" max="300" value="12"></div>
-      <div class="actions"><button class="primary" id="publishBtn">Publish locally</button><button id="clearBtn" class="danger">Remove all</button></div>
-      <div id="adminStatus" class="status" role="status">No files added yet.</div>
-      <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-      <h2>2. Reports in presentation</h2>
-      <div id="fileList" class="file-list"><div class="empty">Upload a PDF, Excel file, or screenshot to begin.</div></div>
-    </section>
-    <section class="panel">
-      <h2>Preview</h2>
-      <div class="preview-bar"><div id="previewName" class="muted">Select a report to preview</div><div id="sheetControls" class="hidden"><label class="muted" for="sheetSelect">Worksheet </label><select id="sheetSelect"></select></div></div>
-      <div id="preview" class="preview"><div class="placeholder"><div class="big">▣</div>Select a file from the list to preview it here.</div></div>
-      <div class="preview-bar"><label class="checkline"><input type="checkbox" id="includeSelected" disabled> Include selected file in TV slideshow</label><span id="previewInfo" class="muted"></span></div>
-    </section>
+
+<div id="setup">
+  <h1>Report Player</h1>
+  <p class="muted" style="margin:0">Drop your daily reports here and press Play. Nothing is uploaded or stored – files stay in this browser tab and are gone when you close or refresh it.</p>
+  <div class="card">
+    <div id="drop" class="drop"><strong style="font-size:17px">Drop files here or click to browse</strong>
+      <div class="muted small" style="margin-top:4px">Excel (.xlsx .xls) · PDF · Images (png, jpg, webp, gif, bmp, avif…) · you can also paste a screenshot with Ctrl+V</div>
+      <input id="file" type="file" multiple accept=".xlsx,.xls,.pdf,image/*" class="hidden"></div>
+    <div id="err" class="err"></div>
+    <div id="list"></div>
   </div>
-  <div class="footer">Single-file prototype · local browser storage only · connect cloud storage for cross-device publishing</div>
+  <div class="card row" style="justify-content:space-between">
+    <div class="row"><label for="dur"><strong>Seconds per slide</strong></label><input id="dur" type="number" min="3" max="600" value="15" style="width:80px;padding:.4em;border:1px solid var(--line);border-radius:8px">
+      <span class="muted small">(each image, PDF page and Excel page; override per file in the list)</span></div>
+    <button id="play" class="btn primary" disabled>▶ Play full screen</button>
+  </div>
+  <p class="muted small" style="margin:0">While playing: ← → previous/next · Space/OK pause · F full screen · Esc back to this screen. Needs internet only to load the Excel and PDF readers when the page opens.</p>
 </div>
 
-<div id="tv" class="tv hidden">
-  <header class="tv-head"><div><div id="tvTitle" class="tv-title">Daily Report</div><div id="tvSub" class="tv-sub">Waiting for published reports</div></div><div id="tvClock" class="tv-sub"></div></header>
-  <main id="tvStage" class="tv-stage"><div class="tv-empty"><h2>No reports published</h2><p>Add reports in admin mode on this browser.</p></div></main>
-  <footer class="tv-foot"><span id="tvProgress">0 / 0</span><span id="tvSync">Last sync: —</span><div class="tv-controls"><button id="prevBtn" title="Previous">◀</button><button id="pauseBtn">Pause</button><button id="nextBtn" title="Next">Next ▶</button><button id="exitBtn">Admin</button><button id="fullscreenBtn">Fullscreen</button></div></footer>
+<div id="stage" class="hidden">
+  <div id="view"></div>
+  <div id="hud"><button id="bBack" title="Back (Esc)">✕</button><button id="bPrev" title="Previous (←)">◀</button><button id="bPause" title="Pause (Space)">⏸</button><button id="bNext" title="Next (→)">▶</button><button id="bFs" title="Full screen (F)">⛶</button></div>
+  <div id="cap"><div class="t" id="capT"></div><div id="capP"></div></div>
+  <div id="prog"><b id="progB"></b></div>
 </div>
 
 <script>
 (() => {
 'use strict';
-const $ = id => document.getElementById(id);
-const params = new URLSearchParams(location.search);
-const isDisplay = params.get('mode') === 'display';
-const DB_NAME = 'dailyReportTvDisplay_v1';
-const STORE = 'files';
-let db = null, files = [], selectedId = null, previewUrl = null, tvIndex = 0, timer = null, paused = false, currentExcelRows = null, currentSheetNames = [], currentSheetIndex = 0, lastPublished = 0;
+const MAX_BYTES = 200 * 1024 * 1024;
+const TYPES = {xlsx:'excel',xls:'excel',pdf:'pdf',png:'image',jpg:'image',jpeg:'image',jpe:'image',jfif:'image',webp:'image',gif:'image',bmp:'image',avif:'image',svg:'image',heic:'image',heif:'image'};
+const LIBS = {
+  xlsx: ['https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js','https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'],
+  pdf:  ['https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js','https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js']
+};
+const WORKERS = ['https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js','https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'];
+const $ = s => document.querySelector(s);
+function h(tag, props, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'style') Object.assign(e.style, v);
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === 'value' || k === 'checked' || k === 'disabled') e[k] = v;
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat(Infinity)) if (kid != null && kid !== false) e.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  return e;
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const extOf = n => (n.split('.').pop() || '').toLowerCase();
+const fmtBytes = n => n < 1048576 ? (n / 1024).toFixed(0) + ' KB' : (n / 1048576).toFixed(1) + ' MB';
+const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
 
-function uid(){return 'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
-function fmtSize(n){if(n<1024)return n+' B';if(n<1048576)return (n/1024).toFixed(1)+' KB';return (n/1048576).toFixed(1)+' MB'}
-function typeOf(file){const name=(file.name||'').toLowerCase();if(name.endsWith('.pdf')||file.type==='application/pdf')return 'pdf';if(name.endsWith('.xlsx')||name.endsWith('.xls')||/spreadsheet|excel/.test(file.type))return 'excel';if(/^image\//.test(file.type)||/\.(png|jpe?g|webp)$/.test(name))return 'image';return null}
-function openDb(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE,{keyPath:'id'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
-function dbAll(){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readonly'),req=tx.objectStore(STORE).getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)})}
-function dbPut(item){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(item);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
-function dbDelete(id){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
-function dbClear(){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).clear();tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
-function status(msg){$('adminStatus').textContent=msg}
-function safeText(s){return String(s??'')}
-function typeLabel(t){return t==='pdf'?'PDF':t==='excel'?'XLS':t==='image'?'IMG':'FILE'}
-function getSelected(){return files.find(f=>f.id===selectedId)}
-function makeUrl(f){if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=URL.createObjectURL(f.blob);return previewUrl}
-async function loadFiles(){files=(await dbAll()).sort((a,b)=>(a.order??0)-(b.order??0));renderList()}
-async function addFiles(list){let accepted=0,skipped=[];for(const file of Array.from(list)){const type=typeOf(file);if(!type){skipped.push(file.name+' (unsupported)');continue}if(file.size>100*1024*1024){skipped.push(file.name+' (over 100 MB)');continue}const item={id:uid(),name:file.name,type,size:file.size,mime:file.type||'',blob:file,created:new Date().toISOString(),duration:Number($('defaultDuration')?.value)||12,include:true,order:files.length,published:false};try{await dbPut(item);files.push(item);accepted++}catch(e){skipped.push(file.name+' (browser storage full)')}}renderList();if(accepted){selectedId=files[files.length-accepted].id;await previewSelected()}status(accepted+' file(s) added.'+(skipped.length?' Skipped: '+skipped.join(', '):''))}
-function renderList(){const root=$('fileList');root.innerHTML='';if(!files.length){root.innerHTML='<div class="empty">Upload a PDF, Excel file, or screenshot to begin.</div>';return}files.forEach((f,i)=>{const el=document.createElement('div');el.className='file';const type=document.createElement('div');type.className='type';type.textContent=typeLabel(f.type);const info=document.createElement('div');const nm=document.createElement('div');nm.className='file-name';nm.textContent=f.name;const meta=document.createElement('div');meta.className='file-meta';meta.textContent=fmtSize(f.size)+' · '+(f.include?'Included':'Excluded')+' · '+(f.duration||12)+' sec';info.append(nm,meta);const controls=document.createElement('div');controls.className='file-controls';const selectBtn=document.createElement('button');selectBtn.textContent='Preview';selectBtn.onclick=()=>{selectedId=f.id;previewSelected();renderList()};const up=document.createElement('button');up.textContent='↑';up.title='Move up';up.disabled=i===0;up.onclick=()=>moveFile(i,-1);const down=document.createElement('button');down.textContent='↓';down.title='Move down';down.disabled=i===files.length-1;down.onclick=()=>moveFile(i,1);const del=document.createElement('button');del.textContent='✕';del.className='danger';del.title='Delete';del.onclick=()=>removeFile(f.id);controls.append(selectBtn,up,down,del);el.append(type,info,controls);if(f.id===selectedId)el.style.borderColor='var(--accent)';root.append(el)})}
-async function moveFile(i,delta){const j=i+delta;if(j<0||j>=files.length)return;[files[i],files[j]]=[files[j],files[i]];files.forEach((f,k)=>{f.order=k;dbPut(f)});renderList()}
-async function removeFile(id){const f=files.find(x=>x.id===id);if(!f)return;if(!confirm('Delete "'+f.name+'"?'))return;await dbDelete(id);files=files.filter(x=>x.id!==id);if(selectedId===id)selectedId=files[0]?.id||null;renderList();await previewSelected();status('File deleted.')}
-async function saveItem(f){await dbPut(f);renderList()}
-function clearPreview(){if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null} $('preview').innerHTML='<div class="placeholder"><div class="big">▣</div>Select a file from the list to preview it here.</div>';$('previewName').textContent='Select a report to preview';$('previewInfo').textContent='';$('sheetControls').classList.add('hidden');$('includeSelected').checked=false;$('includeSelected').disabled=true;currentExcelRows=null}
-async function previewSelected(){const f=getSelected();if(!f){clearPreview();return}if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null}const box=$('preview');box.innerHTML='';$('previewName').textContent=f.name;$('previewInfo').textContent=fmtSize(f.size);$('includeSelected').disabled=false;$('includeSelected').checked=!!f.include;try{if(f.type==='image'){const img=document.createElement('img');img.src=makeUrl(f);img.alt=f.name;box.append(img)}else if(f.type==='pdf'){const url=makeUrl(f);const frame=document.createElement('iframe');frame.src=url+'#toolbar=1&navpanes=0';frame.title=f.name;box.append(frame)}else if(f.type==='excel'){await renderExcel(f,box,false)} }catch(e){box.innerHTML='<div class="placeholder">Preview failed: '+safeText(e.message)+'</div>'}}
-async function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error('Could not load required library'));document.head.append(s)})}
-async function ensureXLSX(){if(window.XLSX)return;await loadScript('https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js')}
-async function renderExcel(f,box,isTv){await ensureXLSX();const ab=await f.blob.arrayBuffer();const wb=XLSX.read(ab,{type:'array'});currentSheetNames=wb.SheetNames;const selectedSheet=(f.sheetName&&wb.SheetNames.includes(f.sheetName))?f.sheetName:wb.SheetNames[0];currentSheetIndex=Math.max(0,wb.SheetNames.indexOf(selectedSheet));if(!isTv){$('sheetControls').classList.remove('hidden');const sel=$('sheetSelect');sel.innerHTML='';wb.SheetNames.forEach((name,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=name;sel.append(o)});sel.value=String(currentSheetIndex);sel.onchange=async()=>{currentSheetIndex=Number(sel.value);f.sheetName=wb.SheetNames[currentSheetIndex];await saveItem(f);const rows=XLSX.utils.sheet_to_json(wb.Sheets[f.sheetName],{header:1,defval:''});box.innerHTML='';box.append(makeTable(rows,500))}}const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[currentSheetIndex]],{header:1,defval:''});currentExcelRows=rows;box.innerHTML='';const wrap=document.createElement('div');wrap.style.width='100%';wrap.style.overflow='auto';wrap.append(makeTable(rows,isTv?1000:500));box.append(wrap)}
-function makeTable(rows,maxRows){const table=document.createElement('table');if(!rows||!rows.length){const d=document.createElement('div');d.className='placeholder';d.textContent='This worksheet is empty.';return d}const limited=rows.slice(0,maxRows);limited.forEach((row,i)=>{const tr=document.createElement('tr');row.forEach(v=>{const cell=document.createElement(i===0?'th':'td');cell.textContent=safeText(v);tr.append(cell)});table.append(tr)});if(rows.length>maxRows){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=Math.max(1,...rows.map(r=>r.length));td.textContent='Preview limited to '+maxRows+' rows.';tr.append(td);table.append(tr)}return table}
-$('fileInput').addEventListener('change',e=>{addFiles(e.target.files);e.target.value=''});
-const dz=$('dropZone');dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.borderColor='var(--accent)'});dz.addEventListener('dragleave',()=>dz.style.borderColor='');dz.addEventListener('drop',e=>{e.preventDefault();dz.style.borderColor='';addFiles(e.dataTransfer.files)});
-$('includeSelected').addEventListener('change',async e=>{const f=getSelected();if(!f)return;f.include=e.target.checked;await saveItem(f);status('Presentation selection updated. Click Publish locally when ready.')});
-$('publishBtn').onclick=async()=>{files.forEach((f,i)=>{f.order=i;f.published=!!f.include;dbPut(f)});lastPublished=Date.now();localStorage.setItem('dailyReportTvLastPublished',String(lastPublished));status('Published locally at '+new Date(lastPublished).toLocaleString()+'. This browser only; not shared with another device.');};
-$('clearBtn').onclick=async()=>{if(!confirm('Remove all files stored in this browser?'))return;await dbClear();files=[];selectedId=null;clearPreview();renderList();status('All local files removed.')};
-$('displayLink').onclick=()=>{const u=new URL(location.href);u.searchParams.set('mode','display');window.open(u.toString(),'_blank','noopener')};
-$('exportBtn').onclick=async()=>{const manifest={version:1,exportedAt:new Date().toISOString(),note:'Metadata only; file contents are not included.',files:files.map(({id,name,type,size,mime,created,duration,include,order,published,sheetName})=>({id,name,type,size,mime,created,duration,include,order,published,sheetName}))};const blob=new Blob([JSON.stringify(manifest,null,2)],{type:'application/json'});downloadBlob(blob,'report-manifest.json');status('Manifest exported. It does not contain the uploaded files.')}
-function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
-$('importBtn').onclick=()=>$('manifestInput').click();$('manifestInput').onchange=()=>{status('Manifest import is metadata-only in this prototype; original files must be uploaded again.');$('manifestInput').value=''};
-async function initAdmin(){try{db=await openDb();await loadFiles();if(files.length){selectedId=files[0].id;await previewSelected()} }catch(e){status('Browser storage unavailable. Please use a modern browser with IndexedDB enabled. '+e.message)}}
+/* ---------- libraries (lazy, with fallback CDN and clear error) ---------- */
+const libP = {};
+const loadScript = src => new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => { s.remove(); rej(); }; document.head.append(s); });
+function loadLib(name) {
+  if (libP[name]) return libP[name];
+  libP[name] = (async () => {
+    for (const src of LIBS[name]) {
+      try {
+        await loadScript(src);
+        if (name === 'xlsx' && !window.XLSX) continue;
+        if (name === 'pdf') { if (!window.pdfjsLib) continue; pdfjsLib.GlobalWorkerOptions.workerSrc = WORKERS[LIBS.pdf.indexOf(src)]; }
+        return true;
+      } catch {}
+    }
+    delete libP[name];
+    throw new Error((name === 'xlsx' ? 'The Excel reader' : 'The PDF reader') + ' could not be loaded (internet or content blocking). Reload the page while online.');
+  })();
+  return libP[name];
+}
 
-function tvActive(){return files.filter(f=>f.published&&f.include).sort((a,b)=>(a.order??0)-(b.order??0))}
-function stopTimer(){if(timer)clearTimeout(timer);timer=null}
-function scheduleNext(ms){stopTimer();if(!paused&&tvActive().length>1)timer=setTimeout(()=>{tvIndex=(tvIndex+1)%tvActive().length;renderTv();},ms)}
-async function renderTv(){const active=tvActive();const stage=$('tvStage');stage.innerHTML='';if(!active.length){stage.innerHTML='<div class="tv-empty"><h2>No reports published in this browser</h2><p>Open admin mode in the same browser to add and publish files.</p></div>';$('tvTitle').textContent='Daily Report';$('tvSub').textContent='Waiting for reports';$('tvProgress').textContent='0 / 0';stopTimer();return}if(tvIndex>=active.length)tvIndex=0;const f=active[tvIndex];$('tvTitle').textContent=f.name;$('tvSub').textContent=(f.type==='excel'?(f.sheetName||'Worksheet'):f.type.toUpperCase())+' · '+new Date(f.created).toLocaleDateString();$('tvProgress').textContent=(tvIndex+1)+' / '+active.length;$('tvSync').textContent='Last published: '+(lastPublished?new Date(lastPublished).toLocaleTimeString():'—');try{if(f.type==='image'){const img=document.createElement('img');img.src=URL.createObjectURL(f.blob);img.onload=()=>URL.revokeObjectURL(img.src);img.alt=f.name;stage.append(img)}else if(f.type==='pdf'){const frame=document.createElement('iframe');frame.src=URL.createObjectURL(f.blob)+'#toolbar=0&navpanes=0&view=FitH';frame.title=f.name;stage.append(frame)}else if(f.type==='excel'){const wrap=document.createElement('div');wrap.className='excel-wrap';stage.append(wrap);await renderExcel(f,wrap,true)}}catch(e){stage.innerHTML='<div class="tv-empty">Could not display '+safeText(f.name)+': '+safeText(e.message)+'</div>'}scheduleNext(Math.max(3,Number(f.duration)||12)*1000)}
-$('prevBtn').onclick=()=>{const a=tvActive();if(a.length){paused=true;tvIndex=(tvIndex-1+a.length)%a.length;renderTv()}};
-$('nextBtn').onclick=()=>{const a=tvActive();if(a.length){paused=true;tvIndex=(tvIndex+1)%a.length;renderTv()}};
-$('pauseBtn').onclick=()=>{paused=!paused;$('pauseBtn').textContent=paused?'Resume':'Pause';if(paused)stopTimer();else scheduleNext((Number(tvActive()[tvIndex]?.duration)||12)*1000)};
-$('exitBtn').onclick=()=>{location.href=location.pathname};$('fullscreenBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
-function initTv(){document.body.classList.add('display-mode');$('admin').classList.add('hidden');$('tv').classList.remove('hidden');try{db=openDb();db.then(async d=>{window.__tvdb=d;files=await dbAll();lastPublished=Number(localStorage.getItem('dailyReportTvLastPublished'))||0;renderTv();setInterval(async()=>{try{files=await dbAll();const lp=Number(localStorage.getItem('dailyReportTvLastPublished'))||0;if(lp!==lastPublished){lastPublished=lp;tvIndex=0;renderTv()}}catch(e){}},15000);});}catch(e){$('tvStage').innerHTML='<div class="tv-empty">Browser storage unavailable.</div>'}setInterval(()=>$('tvClock').textContent=new Date().toLocaleString(),1000)}
-if(isDisplay)initTv();else initAdmin();
+/* ---------- state ---------- */
+const items = [];   // {id,name,file,type,duration,buf}
+const listEl = $('#list'), errEl = $('#err'), playBtn = $('#play');
+
+function addFiles(files) {
+  const bad = [];
+  for (const f of files) {
+    const ext = extOf(f.name);
+    const type = TYPES[ext] || (f.type && f.type.startsWith('image/') ? 'image' : f.type === 'application/pdf' ? 'pdf' : '');
+    if (!type) { bad.push((f.name || 'file') + ': unsupported type "' + (ext || f.type || 'unknown') + '" (use Excel, PDF or an image)'); continue; }
+    if (!f.size) { bad.push(f.name + ': file is empty'); continue; }
+    if (f.size > MAX_BYTES) { bad.push(f.name + ': too large (' + fmtBytes(f.size) + ')'); continue; }
+    items.push({id: uid(), name: (f.name || 'Pasted image').replace(/\.[^.]+$/, ''), file: f, type, duration: null, thumb: type === 'image' ? URL.createObjectURL(f) : null});
+  }
+  errEl.innerHTML = bad.map(esc).join('<br>');
+  render();
+}
+function render() {
+  listEl.replaceChildren(...items.map((it, i) => h('div', {class: 'item'},
+    it.thumb ? h('img', {src: it.thumb, alt: '', style: {width: '56px', height: '40px', objectFit: 'cover', borderRadius: '6px', background: '#eee'}, onerror: e => { e.target.replaceWith(h('span', {class: 'badge bad', title: 'This browser cannot decode this image'}, 'IMAGE ?')); }}) : h('span', {class: 'badge'}, it.type.toUpperCase()),
+    h('div', {}, h('div', {class: 'nm'}, h('input', {value: it.name, style: {width: '100%', border: '1px solid var(--line)', borderRadius: '6px', padding: '.3em .5em', fontWeight: 600}, onchange: e => { it.name = e.target.value.trim() || it.file.name; }})),
+      h('div', {class: 'muted small'}, it.file.name + ' · ' + fmtBytes(it.file.size))),
+    h('input', {type: 'number', min: 3, max: 600, placeholder: 'default', value: it.duration || '', title: 'Seconds per slide (blank = default)', onchange: e => { const v = parseInt(e.target.value, 10); it.duration = v >= 3 ? Math.min(v, 600) : null; e.target.value = it.duration || ''; }}),
+    h('div', {class: 'row', style: {gap: '4px'}},
+      h('button', {class: 'btn sm', disabled: i === 0, onclick: () => { [items[i - 1], items[i]] = [items[i], items[i - 1]]; render(); }}, '↑'),
+      h('button', {class: 'btn sm', disabled: i === items.length - 1, onclick: () => { [items[i + 1], items[i]] = [items[i], items[i + 1]]; render(); }}, '↓'),
+      h('button', {class: 'btn sm', onclick: () => { if (it.thumb) URL.revokeObjectURL(it.thumb); items.splice(i, 1); render(); }}, 'Remove')))));
+  playBtn.disabled = !items.length;
+}
+const drop = $('#drop'), fileIn = $('#file');
+drop.onclick = () => fileIn.click();
+fileIn.onchange = () => { addFiles([...fileIn.files]); fileIn.value = ''; };
+['dragenter', 'dragover'].forEach(ev => window.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => window.addEventListener(ev, e => { e.preventDefault(); if (ev === 'drop' || e.target === document.documentElement) drop.classList.remove('over'); }));
+window.addEventListener('drop', e => { if (e.dataTransfer && e.dataTransfer.files.length && $('#stage').classList.contains('hidden')) addFiles([...e.dataTransfer.files]); });
+
+/* ---------- Excel / PDF helpers ---------- */
+const NUMRE = /^[\s$€£]*-?[\d\s.,]+%?\s*$/;
+function sheetToAoa(ws) {
+  let a = XLSX.utils.sheet_to_json(ws, {header: 1, raw: false, defval: '', blankrows: false});
+  let truncated = false;
+  if (a.length > 3000) { a = a.slice(0, 3000); truncated = true; }
+  let maxc = 0; a.forEach(r => { let l = r.length; while (l > 0 && (r[l - 1] === '' || r[l - 1] == null)) l--; if (l > maxc) maxc = l; });
+  if (maxc > 40) { maxc = 40; truncated = true; }
+  return {aoa: a.map(r => { const x = r.slice(0, maxc).map(v => v == null ? '' : String(v)); while (x.length < maxc) x.push(''); return x; }), truncated};
+}
+function buildTable(aoa, r0, r1) {
+  const t = h('table', {class: 'xl'});
+  t.append(h('thead', {}, h('tr', {}, aoa[0].map(c => h('th', {}, c)))));
+  const tb = h('tbody');
+  for (let i = Math.max(1, r0); i <= r1 && i < aoa.length; i++) tb.append(h('tr', {}, aoa[i].map(c => h('td', {class: c !== '' && NUMRE.test(c) ? 'num' : ''}, c))));
+  t.append(tb); return t;
+}
+async function openPdf(buf) { await loadLib('pdf'); return pdfjsLib.getDocument({data: new Uint8Array(buf.slice(0))}).promise; }
+async function renderPdfPage(doc, n, canvas, maxW, maxH) {
+  const page = await doc.getPage(n), v1 = page.getViewport({scale: 1});
+  const fit = Math.min(maxW / v1.width, maxH / v1.height), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const vp = page.getViewport({scale: fit * dpr});
+  canvas.width = Math.floor(vp.width); canvas.height = Math.floor(vp.height);
+  canvas.style.width = Math.floor(vp.width / dpr) + 'px'; canvas.style.height = Math.floor(vp.height / dpr) + 'px';
+  await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+}
+
+/* ---------- player ---------- */
+const stage = $('#stage'), view = $('#view'), capT = $('#capT'), capP = $('#capP'), progB = $('#progB'), bPause = $('#bPause');
+const P = {i: 0, p: 0, pages: [], loaded: new Map(), token: 0, paused: false, anim: null, playing: false, hudT: null};
+let wakeLock = null;
+
+function viewSize() { const cs = getComputedStyle(view); return {w: view.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), h: view.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)}; }
+function stopAnim() { if (P.anim) { P.anim.onfinish = null; P.anim.cancel(); P.anim = null; } }
+function showMsg(html) { stopAnim(); view.replaceChildren(h('div', {class: 'slide'}, Object.assign(h('div', {class: 'msg'}), {innerHTML: html}))); }
+
+function sniff(buf) {
+  const b = new Uint8Array(buf, 0, Math.min(16, buf.byteLength)), a = (...x) => x.every((v, k) => b[k] === v);
+  const str = (o, t) => [...t].every((c, k) => b[o + k] === c.charCodeAt(0));
+  if (a(0x89, 0x50, 0x4E, 0x47)) return {kind: 'image', mime: 'image/png', label: 'PNG'};
+  if (a(0xFF, 0xD8, 0xFF)) return {kind: 'image', mime: 'image/jpeg', label: 'JPEG'};
+  if (str(0, 'GIF8')) return {kind: 'image', mime: 'image/gif', label: 'GIF'};
+  if (str(0, 'RIFF') && str(8, 'WEBP')) return {kind: 'image', mime: 'image/webp', label: 'WEBP'};
+  if (str(0, 'BM')) return {kind: 'image', mime: 'image/bmp', label: 'BMP'};
+  if (str(4, 'ftyp')) return {kind: 'image', mime: '', label: 'HEIC/AVIF (' + String.fromCharCode(...b.slice(8, 12)) + ')'};
+  if (str(0, '%PDF')) return {kind: 'pdf', mime: 'application/pdf', label: 'PDF'};
+  if (a(0x50, 0x4B)) return {kind: 'excel', mime: '', label: 'ZIP/XLSX'};
+  if (a(0xD0, 0xCF, 0x11, 0xE0)) return {kind: 'excel', mime: '', label: 'XLS'};
+  if (b[0] === 0x3C) return {kind: 'text', mime: '', label: 'HTML/SVG/text'};
+  return {kind: 'unknown', mime: '', label: 'unknown'};
+}
+function tryImg(url) { return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = url; }); }
+async function getLoaded(it) {
+  if (P.loaded.has(it.id)) return P.loaded.get(it.id);
+  if (!it.buf) it.buf = await it.file.arrayBuffer();
+  const sn = sniff(it.buf);
+  if (it.type === 'image' && (sn.kind === 'pdf' || sn.kind === 'excel')) it.type = sn.kind;     // trust the content, not the extension
+  const L = {it};
+  if (it.type === 'image') {
+    const mime = sn.mime || it.file.type || 'image/png';
+    let src = null, why = '';
+    try { src = await createImageBitmap(new Blob([it.buf], {type: mime})); } catch (e) { why = (e && (e.message || e.name)) || ''; }
+    if (!src) {                                                    // second decoder path
+      const u = URL.createObjectURL(new Blob([it.buf], {type: mime}));
+      try { src = await tryImg(u); if (!src.naturalWidth) src = null; } catch { src = null; }
+      URL.revokeObjectURL(u);
+    }
+    if (!src) throw new Error('This browser cannot decode this image. Detected content: ' + sn.label + ', ' + fmtBytes(it.buf.byteLength) + (why ? ' (' + why + ')' : '') + (it.buf.byteLength < 100 ? ' – file looks empty or incomplete, re-save it' : '') + (/HEIC/.test(sn.label) ? ' – convert it to JPG or PNG.' : sn.kind === 'text' || sn.kind === 'unknown' ? ' – this does not look like a picture; re-save or re-take the screenshot.' : '.'));
+    L.src = src; L.w = src.width || src.naturalWidth; L.h = src.height || src.naturalHeight;
+  }
+  else if (it.type === 'pdf') L.doc = await openPdf(it.buf);
+  else { await loadLib('xlsx'); L.wb = XLSX.read(new Uint8Array(it.buf), {type: 'array', cellDates: true}); L.aoa = {}; }
+  P.loaded.set(it.id, L); return L;
+}
+function paginate(aoa, availW, availH, font) {
+  const host = h('div', {class: 'measure', style: {fontSize: font + 'px'}}); document.body.append(host);
+  const t = buildTable(aoa, 1, aoa.length); host.append(t);
+  const W0 = t.offsetWidth || 1, headH = t.tHead.offsetHeight, scale = Math.max(0.5, Math.min(1.3, availW / W0));
+  const limit = availH / scale - headH, hs = [...t.tBodies[0].rows].map(r => r.offsetHeight);
+  host.remove();
+  const pages = []; let start = 1, acc = 0;
+  for (let r = 1; r <= hs.length; r++) { if (acc + hs[r - 1] > limit && r > start) { pages.push([start, r - 1]); start = r; acc = 0; } acc += hs[r - 1]; }
+  pages.push(hs.length ? [start, hs.length] : [1, 0]);
+  return {pages, scale};
+}
+async function computePages(L) {
+  const it = L.it;
+  if (it.type === 'image') return [{}];
+  if (it.type === 'pdf') return Array.from({length: L.doc.numPages}, (_, k) => ({n: k + 1}));
+  const sz = viewSize(), font = Math.max(14, Math.round(sz.h / 42)), out = [];
+  for (const name of L.wb.SheetNames) {
+    if (!L.aoa[name]) L.aoa[name] = sheetToAoa(L.wb.Sheets[name]);
+    const {aoa, truncated} = L.aoa[name];
+    if (aoa.length < 1) continue;                         // skip empty sheets
+    const {pages, scale} = paginate(aoa, sz.w, sz.h - font * 1.8, font);
+    pages.forEach((rg, k) => out.push({sheet: name, aoa, rows: rg, scale, font, of: pages.length, total: aoa.length - 1, truncated}));
+  }
+  if (!out.length) out.push({empty: true});
+  return out;
+}
+
+async function showCurrent() {
+  const my = ++P.token; stopAnim();
+  const it = items[P.i];
+  const spin = setTimeout(() => { if (my === P.token) showMsg('<div class="spinner"></div><p>' + esc(it.name) + '</p>'); }, 500);
+  let L;
+  try { L = await getLoaded(it); P.pages = await computePages(L); }
+  catch (e) {
+    clearTimeout(spin); if (my !== P.token) return;
+    P.pages = []; capT.textContent = it.name; capP.textContent = '';
+    showMsg('<h2>Could not display “' + esc(it.name) + '”</h2><p>' + esc(e && e.message || 'File could not be read') + '</p>');
+    P.anim = progB.animate([{transform: 'scaleX(0)'}, {transform: 'scaleX(1)'}], {duration: 6000, fill: 'forwards'});
+    P.anim.onfinish = () => advance(1); if (P.paused) P.anim.pause(); return;
+  }
+  clearTimeout(spin); if (my !== P.token) return;
+  if (P.p === 'last') P.p = P.pages.length - 1;
+  P.p = Math.min(Math.max(P.p, 0), P.pages.length - 1);
+  renderPage(L, my);
+}
+async function renderPage(L, my) {
+  const it = L.it, pg = P.pages[P.p], sz = viewSize(); let node;
+  try {
+    if (it.type === 'image') {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2), fit = Math.min(sz.w / L.w, sz.h / L.h, 3);
+      const cv = h('canvas'); cv.width = Math.max(1, Math.round(L.w * fit * dpr)); cv.height = Math.max(1, Math.round(L.h * fit * dpr));
+      cv.style.width = Math.round(L.w * fit) + 'px'; cv.style.height = Math.round(L.h * fit) + 'px';
+      const cx = cv.getContext('2d'); cx.imageSmoothingQuality = 'high'; cx.drawImage(L.src, 0, 0, cv.width, cv.height);
+      node = h('div', {class: 'slide'}, cv);
+    }
+    else if (it.type === 'pdf') { const cv = h('canvas'); await renderPdfPage(L.doc, pg.n, cv, sz.w, sz.h); if (my !== P.token) return; node = h('div', {class: 'slide'}, cv); }
+    else if (pg.empty) node = h('div', {class: 'slide'}, h('div', {class: 'msg'}, 'This workbook has no data'));
+    else {
+      const t = buildTable(pg.aoa, pg.rows[0], pg.rows[1]); t.style.fontSize = pg.font + 'px';
+      const cap = h('div', {class: 'xlcap', style: {fontSize: pg.font * 0.9 + 'px'}}, 'Sheet: ' + pg.sheet + (pg.of > 1 ? '  ·  rows ' + pg.rows[0] + '–' + pg.rows[1] + ' of ' + pg.total : '') + (pg.truncated ? '  ·  (truncated)' : ''));
+      node = h('div', {class: 'slide'}, h('div', {class: 'xlwrap'}, cap, h('div', {class: 'xlscale', style: {transform: 'scale(' + pg.scale + ')'}}, t)));
+    }
+  } catch (e) { node = h('div', {class: 'slide'}, h('div', {class: 'msg'}, 'Page could not be rendered: ' + esc(e.message))); }
+  if (my !== P.token) return;
+  view.replaceChildren(node);
+  capT.textContent = it.name;
+  capP.textContent = 'Item ' + (P.i + 1) + '/' + items.length + (P.pages.length > 1 ? ' · Page ' + (P.p + 1) + '/' + P.pages.length : '');
+  const dur = Math.max(3, it.duration || parseInt($('#dur').value, 10) || 15) * 1000;
+  stopAnim();
+  P.anim = progB.animate([{transform: 'scaleX(0)'}, {transform: 'scaleX(1)'}], {duration: dur, fill: 'forwards'});
+  P.anim.onfinish = () => go(1);
+  if (P.paused) P.anim.pause();
+  const nx = items[(P.i + 1) % items.length]; if (nx !== it) getLoaded(nx).catch(() => {});   // warm up next
+}
+function advance(d) { P.i = (P.i + d + items.length) % items.length; P.p = d > 0 ? 0 : 'last'; showCurrent(); }
+function go(d) {
+  const np = (typeof P.p === 'number' ? P.p : 0) + d;
+  if (P.pages.length && np >= 0 && np < P.pages.length) { P.p = np; const L = P.loaded.get(items[P.i].id); if (L) { ++P.token; renderPage(L, P.token); return; } }
+  advance(d);
+}
+function togglePause() { P.paused = !P.paused; bPause.textContent = P.paused ? '▶' : '⏸'; if (P.anim) P.paused ? P.anim.pause() : P.anim.play(); }
+function toggleFs() { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(() => {}); }
+async function wake() { try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch {} }
+
+function start() {
+  if (!items.length) return;
+  P.playing = true; P.i = 0; P.p = 0; P.paused = false; bPause.textContent = '⏸';
+  $('#setup').classList.add('hidden'); stage.classList.remove('hidden');
+  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+  wake(); showHud(); showCurrent();
+}
+function stop() {
+  P.playing = false; ++P.token; stopAnim();
+  P.loaded.forEach(l => l.src && l.src.close && l.src.close()); P.loaded.clear();
+  stage.classList.add('hidden'); $('#setup').classList.remove('hidden');
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  try { wakeLock && wakeLock.release(); } catch {}
+}
+function showHud() { stage.classList.add('hud'); stage.classList.remove('idle'); clearTimeout(P.hudT); P.hudT = setTimeout(() => { stage.classList.remove('hud'); stage.classList.add('idle'); }, 4000); }
+
+playBtn.onclick = start;
+$('#bBack').onclick = stop; $('#bPrev').onclick = () => go(-1); $('#bNext').onclick = () => go(1); bPause.onclick = togglePause; $('#bFs').onclick = toggleFs;
+['mousemove', 'mousedown', 'touchstart'].forEach(ev => stage.addEventListener(ev, showHud, {passive: true}));
+window.addEventListener('keydown', e => {
+  if (!P.playing) return;
+  showHud();
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') go(1);
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp') go(-1);
+  else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); togglePause(); }
+  else if (e.key === 'Escape') stop();
+  else if (e.key.toLowerCase() === 'f') toggleFs();
+});
+window.addEventListener('paste', e => {
+  if (P.playing || !e.clipboardData) return;
+  const files = [...e.clipboardData.files];
+  if (files.length) { e.preventDefault(); addFiles(files.map((f, k) => f.name && f.name !== 'image.png' ? f : new File([f], 'Screenshot ' + new Date().toLocaleTimeString().replace(/:/g, '-') + (k ? '-' + k : '') + '.' + (extOf(f.type.replace('/', '.')) || 'png'), {type: f.type}))); }
+});
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (P.playing) showCurrent(); }, 500); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden && P.playing) wake(); });
+window.addEventListener('beforeunload', e => { if (items.length) { e.preventDefault(); e.returnValue = ''; } });
+render();
 })();
 </script>
 </body>
